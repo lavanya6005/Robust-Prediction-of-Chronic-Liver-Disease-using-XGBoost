@@ -1,12 +1,3 @@
-# Install required libraries
-print("Installing libraries...")
-try:
-    !pip install imbalanced-learn xgboost
-    print("Libraries installed successfully.")
-except Exception as e:
-    print(f"Error installing libraries: {e}")
-
-# Import all libraries
 import pandas as pd
 import numpy as np
 import warnings
@@ -25,7 +16,6 @@ from imblearn.pipeline import Pipeline as ImbPipeline
 from imblearn.over_sampling import SMOTE
 import os
 
-# Configuration
 RANDOM_STATE = 42
 FILE_NAME = 'Liver Patient Dataset (LPD)_train.csv'
 TARGET_COL = 'Result'
@@ -40,28 +30,23 @@ else:
     print(f"\nFound file: '{FILE_NAME}'. Starting process...")
     try:
 
-        # LOAD
         data = pd.read_csv(FILE_NAME, encoding='latin1')
         data.columns = data.columns.str.strip()
 
-        # EDA 
         print("\n--- EDA START ---")
 
         sns.set_style("whitegrid")
 
-        # Graph 1
         plt.figure(figsize=(7,5))
         sns.countplot(x=TARGET_COL, data=data)
         plt.title("Target Variable Distribution")
         plt.show()
 
-        # Graph 2
         plt.figure(figsize=(7,5))
         sns.countplot(x="Gender of the patient", data=data)
         plt.title("Gender Distribution")
         plt.show()
 
-        # Graph 3: histogram trio
         plt.figure(figsize=(18,5))
 
         plt.subplot(1,3,1)
@@ -79,7 +64,6 @@ else:
         plt.tight_layout()
         plt.show()
 
-        # Graph 4: Correlation
         df2 = data.copy()
         df2['Gender of the patient'] = df2['Gender of the patient'].map({'Male':1,'Female':0})
         plt.figure(figsize=(12,9))
@@ -89,7 +73,6 @@ else:
 
         print("--- EDA DONE ---\n")
 
-        # ML 
 
         categorical = ['Gender of the patient']
         numerical = [c for c in data.columns if c not in categorical + [TARGET_COL]]
